@@ -5,6 +5,6 @@ export default class LikeInCommentQuery{
       return LikeInComment.create(post)
   }
   deleteLikeInComment(post){
-    return LikeInComment.query().where('post_id',post.post_id).where('user_id',post.user_id).delete()
+    return LikeInComment.query().where('comment_in_post_id',post.comment_in_post_id).where('user_id',post.user_id).delete()
   }
 }

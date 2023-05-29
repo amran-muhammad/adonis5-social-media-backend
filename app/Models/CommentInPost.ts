@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, HasMany, belongsTo, column, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import User from './User'
+import LikeInComment from './LikeInComment'
 
 export default class CommentInPost extends BaseModel {
   @column({ isPrimary: true })
@@ -28,4 +29,17 @@ export default class CommentInPost extends BaseModel {
     }
   })
   public user : BelongsTo<typeof User>
+
+  @hasMany(()=> LikeInComment, {
+    foreignKey: 'comment_in_post_id',
+    localKey: 'id'
+  })
+
+  public total_likes_in_comment: HasMany<typeof LikeInComment>
+  public serializeExtras() {
+    return {
+      number_of_likes: this.$extras.number_of_likes,
+      liked: this.$extras.liked,
+    }
+  }
 }

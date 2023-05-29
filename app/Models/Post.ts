@@ -32,7 +32,9 @@ export default class Post extends BaseModel {
   @hasMany(() => CommentInPost, {
     foreignKey: 'post_id',
     onQuery: (q) => {
-      q.select('id', 'comment','user_id','created_at').preload('user')
+      q.select('id', 'comment','user_id','created_at').preload('user').withCount("total_likes_in_comment", (query) => {
+        query.count("*").as("number_of_likes");
+      })
     }
   })
   public comments: HasMany<typeof CommentInPost>
